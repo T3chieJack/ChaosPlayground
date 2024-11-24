@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FunHub Xtreme</title>
+  <title>FunHub: Ultimate Edition</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #2c3e50;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
       text-align: center;
     }
+
     header {
       background: #16a085;
       padding: 20px;
     }
+
     button {
       font-size: 1rem;
       padding: 10px 20px;
@@ -27,38 +29,80 @@
       color: white;
       cursor: pointer;
     }
+
     button:hover {
       background: #3498db;
     }
-    canvas {
-      border: 2px solid white;
+
+    section {
+      margin: 20px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    iframe {
+      width: 90%;
+      height: 500px;
+      border: none;
       margin: 20px 0;
     }
-    #game-area {
-      padding: 20px;
+
+    footer {
+      background: #16a085;
+      padding: 10px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>FunHub Xtreme 🚀</h1>
-    <p>The ultimate boredom buster!</p>
+    <h1>🎮 FunHub: Ultimate Edition 🎉</h1>
+    <p>Get ready to have endless fun!</p>
   </header>
 
-  <div id="game-area">
-    <button id="mine-block">Mine Block ⛏️</button>
+  <!-- Minecraft Block Mining -->
+  <section id="minecraft-game">
+    <h2>⛏️ Minecraft Block Mining</h2>
+    <button id="mine-block">Mine Block</button>
     <p>Blocks Mined: <span id="block-count">0</span></p>
+  </section>
+
+  <!-- Drawing Canvas -->
+  <section id="drawing-area">
+    <h2>🎨 Draw Something!</h2>
     <canvas id="drawing-canvas" width="300" height="300"></canvas>
     <button id="clear-drawing">Clear Drawing</button>
-  </div>
+  </section>
 
-  <div id="chaos-zone">
-    <button id="chaos-button">Chaos Button 🤪</button>
+  <!-- Chaos Button -->
+  <section id="chaos-zone">
+    <h2>🤪 Chaos Zone</h2>
+    <button id="chaos-button">Chaos Button</button>
     <p id="chaos-result"></p>
-  </div>
+  </section>
+
+  <!-- Fireworks -->
+  <section id="fireworks">
+    <h2>🎆 Fireworks Show</h2>
+    <button id="fireworks-button">Launch Fireworks</button>
+    <canvas id="fireworks-canvas" width="300" height="300"></canvas>
+  </section>
+
+  <!-- Games Section -->
+  <section id="games-section">
+    <h2>🎮 Play Awesome Games</h2>
+    <p>Select a game to play:</p>
+    <button onclick="loadGame('snake')">Snake</button>
+    <button onclick="loadGame('flappy')">Flappy Bird</button>
+    <button onclick="loadGame('2048')">2048</button>
+    <button onclick="loadGame('tetris')">Tetris</button>
+    <button onclick="loadGame('dino')">Dino Run</button>
+    <iframe id="game-frame" src="" title="Game"></iframe>
+  </section>
 
   <footer>
-    <p>Made with 💜 for fun!</p>
+    <p>Made with 💜 to keep boredom away!</p>
   </footer>
 
   <script>
@@ -73,21 +117,21 @@
     });
 
     // Drawing Canvas
-    const canvas = document.getElementById('drawing-canvas');
-    const ctx = canvas.getContext('2d');
+    const drawingCanvas = document.getElementById('drawing-canvas');
+    const drawCtx = drawingCanvas.getContext('2d');
     let drawing = false;
 
-    canvas.addEventListener('mousedown', () => (drawing = true));
-    canvas.addEventListener('mouseup', () => (drawing = false));
-    canvas.addEventListener('mousemove', (e) => {
+    drawingCanvas.addEventListener('mousedown', () => (drawing = true));
+    drawingCanvas.addEventListener('mouseup', () => (drawing = false));
+    drawingCanvas.addEventListener('mousemove', (e) => {
       if (!drawing) return;
-      const rect = canvas.getBoundingClientRect();
-      ctx.fillStyle = 'white';
-      ctx.fillRect(e.clientX - rect.left, e.clientY - rect.top, 5, 5);
+      const rect = drawingCanvas.getBoundingClientRect();
+      drawCtx.fillStyle = 'white';
+      drawCtx.fillRect(e.clientX - rect.left, e.clientY - rect.top, 5, 5);
     });
 
     document.getElementById('clear-drawing').addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCtx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
     });
 
     // Chaos Button
@@ -96,13 +140,42 @@
     const chaosOptions = [
       'You found a diamond! 💎',
       'Creeper explosion! 💥',
-      'Random chicken appeared! 🐔',
-      'Oops, lava is spilling! 🔥'
+      'A pig appeared! 🐖',
+      'Oops, lava everywhere! 🔥',
     ];
 
     chaosButton.addEventListener('click', () => {
       const randomIndex = Math.floor(Math.random() * chaosOptions.length);
       chaosResult.textContent = chaosOptions[randomIndex];
+    });
+
+    // Fireworks Show
+    const fireworksCanvas = document.getElementById('fireworks-canvas');
+    const fireworksCtx = fireworksCanvas.getContext('2d');
+    document.getElementById('fireworks-button').addEventListener('click', () => {
+      fireworksCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+      fireworksCtx.fillStyle = 'yellow';
+      fireworksCtx.beginPath();
+      fireworksCtx.arc(150, 150, 50, 0, Math.PI * 2);
+      fireworksCtx.fill();
+    });
+
+    // Game Loader
+    function loadGame(game) {
+      const gameFrame = document.getElementById('game-frame');
+      const games = {
+        snake: 'https://classwork.cc/games/snake/index.html',
+        flappy: 'https://classwork.cc/games/flappy/index.html',
+        '2048': 'https://classwork.cc/games/2048/index.html',
+        tetris: 'https://classwork.cc/games/tetris/index.html',
+        dino: 'https://classwork.cc/games/dino/index.html',
+      };
+      gameFrame.src = games[game];
+    }
+  </script>
+</body>
+</html>
+
     });
   </script>
 </body>
