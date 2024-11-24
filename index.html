@@ -68,27 +68,6 @@
     <p>Blocks Mined: <span id="block-count">0</span></p>
   </section>
 
-  <!-- Drawing Canvas -->
-  <section id="drawing-area">
-    <h2>🎨 Draw Something!</h2>
-    <canvas id="drawing-canvas" width="300" height="300"></canvas>
-    <button id="clear-drawing">Clear Drawing</button>
-  </section>
-
-  <!-- Chaos Button -->
-  <section id="chaos-zone">
-    <h2>🤪 Chaos Zone</h2>
-    <button id="chaos-button">Chaos Button</button>
-    <p id="chaos-result"></p>
-  </section>
-
-  <!-- Fireworks -->
-  <section id="fireworks">
-    <h2>🎆 Fireworks Show</h2>
-    <button id="fireworks-button">Launch Fireworks</button>
-    <canvas id="fireworks-canvas" width="300" height="300"></canvas>
-  </section>
-
   <!-- Games Section -->
   <section id="games-section">
     <h2>🎮 Play Awesome Games</h2>
@@ -98,6 +77,9 @@
     <button onclick="loadGame('2048')">2048</button>
     <button onclick="loadGame('tetris')">Tetris</button>
     <button onclick="loadGame('dino')">Dino Run</button>
+    <button onclick="loadGame('geometry-dash')">Geometry Dash</button>
+    <button onclick="loadGame('paper-io')">Paper.io</button>
+    <button onclick="loadGame('chrome-dino')">Chrome Dino</button>
     <iframe id="game-frame" src="" title="Game"></iframe>
   </section>
 
@@ -116,50 +98,6 @@
       blockCount.textContent = blocks;
     });
 
-    // Drawing Canvas
-    const drawingCanvas = document.getElementById('drawing-canvas');
-    const drawCtx = drawingCanvas.getContext('2d');
-    let drawing = false;
-
-    drawingCanvas.addEventListener('mousedown', () => (drawing = true));
-    drawingCanvas.addEventListener('mouseup', () => (drawing = false));
-    drawingCanvas.addEventListener('mousemove', (e) => {
-      if (!drawing) return;
-      const rect = drawingCanvas.getBoundingClientRect();
-      drawCtx.fillStyle = 'white';
-      drawCtx.fillRect(e.clientX - rect.left, e.clientY - rect.top, 5, 5);
-    });
-
-    document.getElementById('clear-drawing').addEventListener('click', () => {
-      drawCtx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-    });
-
-    // Chaos Button
-    const chaosButton = document.getElementById('chaos-button');
-    const chaosResult = document.getElementById('chaos-result');
-    const chaosOptions = [
-      'You found a diamond! 💎',
-      'Creeper explosion! 💥',
-      'A pig appeared! 🐖',
-      'Oops, lava everywhere! 🔥',
-    ];
-
-    chaosButton.addEventListener('click', () => {
-      const randomIndex = Math.floor(Math.random() * chaosOptions.length);
-      chaosResult.textContent = chaosOptions[randomIndex];
-    });
-
-    // Fireworks Show
-    const fireworksCanvas = document.getElementById('fireworks-canvas');
-    const fireworksCtx = fireworksCanvas.getContext('2d');
-    document.getElementById('fireworks-button').addEventListener('click', () => {
-      fireworksCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-      fireworksCtx.fillStyle = 'yellow';
-      fireworksCtx.beginPath();
-      fireworksCtx.arc(150, 150, 50, 0, Math.PI * 2);
-      fireworksCtx.fill();
-    });
-
     // Game Loader
     function loadGame(game) {
       const gameFrame = document.getElementById('game-frame');
@@ -169,14 +107,12 @@
         '2048': 'https://classwork.cc/games/2048/index.html',
         tetris: 'https://classwork.cc/games/tetris/index.html',
         dino: 'https://classwork.cc/games/dino/index.html',
+        'geometry-dash': 'https://classwork.cc/geometry-dash-unblocked/',
+        'paper-io': 'https://watchdocumentaries.com/paper-io-game/',
+        'chrome-dino': 'https://classwork.cc/chrome-dino-t-rex-runner-unblocked/',
       };
       gameFrame.src = games[game];
     }
-  </script>
-</body>
-</html>
-
-    });
   </script>
 </body>
 </html>
