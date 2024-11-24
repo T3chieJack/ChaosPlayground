@@ -3,45 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chaos Playground</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>FunHub Xtreme</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+    }
+    header {
+      background: #16a085;
+      padding: 20px;
+    }
+    button {
+      font-size: 1rem;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #2980b9;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #3498db;
+    }
+    canvas {
+      border: 2px solid white;
+      margin: 20px 0;
+    }
+    #game-area {
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>🎢 Chaos Playground 🎉</h1>
-    <p>Welcome to the ultimate boredom buster!</p>
+    <h1>FunHub Xtreme 🚀</h1>
+    <p>The ultimate boredom buster!</p>
   </header>
 
-  <main>
-    <section id="mystery-button">
-      <h2>Mystery Button 🤯</h2>
-      <button id="random-button">Click Me!</button>
-      <p id="random-result"></p>
-    </section>
+  <div id="game-area">
+    <button id="mine-block">Mine Block ⛏️</button>
+    <p>Blocks Mined: <span id="block-count">0</span></p>
+    <canvas id="drawing-canvas" width="300" height="300"></canvas>
+    <button id="clear-drawing">Clear Drawing</button>
+  </div>
 
-    <section id="avatar-creator">
-      <h2>Create Your Avatar 🎭</h2>
-      <canvas id="avatar-canvas"></canvas>
-      <button id="reset-avatar">Reset Avatar</button>
-    </section>
-
-    <section id="chaos-arena">
-      <h2>Chaos Arena 🏆</h2>
-      <button id="start-arena">Start Challenge!</button>
-      <p id="arena-instructions">Press the button to begin!</p>
-    </section>
-
-    <section id="sound-board">
-      <h2>Sound Chaos Board 🎵</h2>
-      <button class="sound-btn" data-sound="laugh">😂 Laugh</button>
-      <button class="sound-btn" data-sound="dramatic">🎭 Dramatic</button>
-      <button class="sound-btn" data-sound="fart">💨 Fart</button>
-    </section>
-  </main>
+  <div id="chaos-zone">
+    <button id="chaos-button">Chaos Button 🤪</button>
+    <p id="chaos-result"></p>
+  </div>
 
   <footer>
-    <p>Made with 💜 for endless fun!</p>
+    <p>Made with 💜 for fun!</p>
   </footer>
-  <script src="assets/js/script.js"></script>
+
+  <script>
+    // Block Miner Game
+    const mineButton = document.getElementById('mine-block');
+    const blockCount = document.getElementById('block-count');
+    let blocks = 0;
+
+    mineButton.addEventListener('click', () => {
+      blocks++;
+      blockCount.textContent = blocks;
+    });
+
+    // Drawing Canvas
+    const canvas = document.getElementById('drawing-canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => (drawing = true));
+    canvas.addEventListener('mouseup', () => (drawing = false));
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.fillStyle = 'white';
+      ctx.fillRect(e.clientX - rect.left, e.clientY - rect.top, 5, 5);
+    });
+
+    document.getElementById('clear-drawing').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Chaos Button
+    const chaosButton = document.getElementById('chaos-button');
+    const chaosResult = document.getElementById('chaos-result');
+    const chaosOptions = [
+      'You found a diamond! 💎',
+      'Creeper explosion! 💥',
+      'Random chicken appeared! 🐔',
+      'Oops, lava is spilling! 🔥'
+    ];
+
+    chaosButton.addEventListener('click', () => {
+      const randomIndex = Math.floor(Math.random() * chaosOptions.length);
+      chaosResult.textContent = chaosOptions[randomIndex];
+    });
+  </script>
 </body>
 </html>
